@@ -1,10 +1,53 @@
 const pokemonPerPage = 20; // Cantidad de Pokémon por página
-let offset = 0; // Desplazamiento inicial
 const container = document.getElementById("root");
-const loadMoreButton = createLoadMoreButton();
-container.appendChild(loadMoreButton);
+const next = document.getElementById("next");
+let offset = 0; // Desplazamiento inicial
+next.addEventListener("click", function (e) {
+  e.preventDefault;
+  container.innerHTML = "";
+  offset += pokemonPerPage;
+  callApi(offset);
+});
+const back = document.getElementById("back");
+back.addEventListener("click", function (e) {
+  e.preventDefault;
+  container.innerHTML = "";
+  offset -= pokemonPerPage;
+  callApi(offset);
+});
 
-document.addEventListener("DOMContentLoaded", function () {
+function formatPokemonData(pokemonData) {
+  return {
+    id: pokemonData.id,
+    img: pokemonData.sprites.other["official-artwork"].front_default,
+    name: pokemonData.name,
+    height: pokemonData.height,
+    weight: pokemonData.weight,
+    types: pokemonData.types.map((type) => type.type.name),
+  };
+}
+
+function createPokemonCard(pokemon) {
+  const card = document.createElement("div");
+  card.innerHTML = `
+      <div>
+        <h2>${pokemon.name}</h2>
+        <img src="${pokemon.img}" alt="${pokemon.name}" />
+        <p>ID: ${pokemon.id}</p>
+        <p>Height: ${pokemon.height}</p>
+        <p>Weight: ${pokemon.weight}</p>
+        <p>Types: ${pokemon.types.join(", ")}</p>
+      </div>
+    `;
+  return card;
+}
+
+function renderPokemon(pokemon) {
+  const card = createPokemonCard(pokemon);
+  container.appendChild(card);
+}
+
+function callApi(offset) {
   const url = `https://pokeapi.co/api/v2/pokemon?limit=${pokemonPerPage}&offset=${offset}`;
   fetch(url)
     .then((response) => response.json())
@@ -29,45 +72,8 @@ document.addEventListener("DOMContentLoaded", function () {
     .catch((error) => {
       console.log("Error:", error);
     });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  callApi(offset);
 });
-
-function formatPokemonData(pokemonData) {
-  return {
-    id: pokemonData.id,
-    img: pokemonData.sprites.other["official-artwork"].front_default,
-    name: pokemonData.name,
-    height: pokemonData.height,
-    weight: pokemonData.weight,
-    types: pokemonData.types.map((type) => type.type.name),
-  };
-}
-
-function loadNextPage() {
-  offset += pokemonPerPage;
-  fetchPokemonData();
-}
-function createLoadMoreButton() {
-  const loadMoreButton = document.createElement("button");
-  loadMoreButton.textContent = "Cargar más";
-  loadMoreButton.addEventListener("click", loadNextPage);
-  return loadMoreButton;
-}
-function createPokemonCard(pokemon) {
-  const card = document.createElement("div");
-  card.innerHTML = `
-      <div>
-        <h2>${pokemon.name}</h2>
-        <img src="${pokemon.img}" alt="${pokemon.name}" />
-        <p>ID: ${pokemon.id}</p>
-        <p>Height: ${pokemon.height}</p>
-        <p>Weight: ${pokemon.weight}</p>
-        <p>Types: ${pokemon.types.join(", ")}</p>
-      </div>
-    `;
-  return card;
-}
-
-function renderPokemon(pokemon) {
-  const card = createPokemonCard(pokemon);
-  container.appendChild(card);
-}
