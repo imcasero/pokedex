@@ -16,7 +16,11 @@
     <link href="./src/style.css" rel="stylesheet" />
   </head>
   <body>
+    <header>
+      <img src="./pokemon-banner.svg" alt="Pokemon banner" />
+    </header>
     <form action="" onsubmit="searchPokemon(event)">
+      <label for="pokemon">Look for a pokemon :</label>
       <input type="text" name="pokemon" autocomplete="off" id="search" />
     </form>
     <div data-poke-card class="poke-card">

@@ -1,9 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Nunito", monospace;
+}
+
+body {
+  background-color: #292929;
+}
+header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+header img {
+  width: 30%;
+  margin-top: 20px;
+}
 form {
   width: 100%;
   margin: 20px auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 input {
@@ -11,10 +31,12 @@ input {
   padding: 10px;
 }
 
+label {
+  color: white;
+}
 .poke-card {
   position: relative;
   height: fit-content;
-  font-family: "Nunito", monospace;
   max-width: 300px;
   border-radius: 4px;
   color: #000;
@@ -27,7 +49,7 @@ input {
 
 .poke-card::before {
   content: "";
-  background: radial-gradient(black 33%, transparent 33%);
+  background: radial-gradient(rgb(218, 218, 218) 33%, transparent 33%);
   background-size: 3px 3px;
   border-radius: 4px;
   height: 100%;
