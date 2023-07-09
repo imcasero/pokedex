@@ -36,6 +36,8 @@ const searchPokemon = (event) => {
 };
 
 const renderPokemonData = (data) => {
+  const searchInput = document.getElementById("search");
+  searchInput.value = "";
   const sprite = data.sprites.front_default;
   const { stats, types } = data;
 
